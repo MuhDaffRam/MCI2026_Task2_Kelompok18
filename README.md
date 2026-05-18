@@ -80,7 +80,7 @@ penjelasan
 
 ### Step 4 : Visualisasi dan Question di Metabase
 
--- screenshot
+<img width="2559" height="1306" alt="image" src="https://github.com/user-attachments/assets/0ddac175-89bf-446a-8d04-fdc48b17b79d" />
 
 penjelasan
 
