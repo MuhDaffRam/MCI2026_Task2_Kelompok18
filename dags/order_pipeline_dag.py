@@ -15,7 +15,6 @@ default_args = {
 }
 
 def fetch_flatten_and_load():
-    # 1. Ambil data dari REST API
     url = "http://96.9.212.102:8000/orders"
     response = requests.get(url)
     if response.status_code != 200:
@@ -23,32 +22,25 @@ def fetch_flatten_and_load():
     
     data = response.json()
     
-    # 2. Proses Flattening Data JSON
     all_rows = []
-    
-    # Ambil array orders dari root JSON
     orders_list = data.get("orders", [])
     
     for order in orders_list:
-        # Ekstrak data level Order
         order_metadata = {
             "order_id": order.get("order_id"),
             "user_id": order.get("user_id"),
             "order_number": order.get("order_number"),
             "order_dow": order.get("order_dow"),
             "order_hour_of_day": order.get("order_hour_of_day"),
-            # Gunakan nilai default jika field ini kosong/null agar tidak error saat load
             "days_since_prior_order": order.get("days_since_prior_order") if order.get("days_since_prior_order") is not None else 0.0,
             "eval_set": order.get("eval_set", "")
         }
         
-        # Ambil array products di dalam order tersebut
         products_list = order.get("products", [])
         
         for product in products_list:
-            # Gabungkan metadata order dengan data product (Flattening)
             row = {
-                **order_metadata, # Copy semua key-value dari order
+                **order_metadata, 
                 "product_id": product.get("product_id"),
                 "product_name": product.get("product_name", ""),
                 "aisle_id": product.get("aisle_id"),
@@ -60,10 +52,8 @@ def fetch_flatten_and_load():
             }
             all_rows.append(row)
             
-    # 3. Konversi hasil akhir ke Pandas DataFrame
     df = pd.DataFrame(all_rows)
     
-    # Mengatasi nilai NaN/None agar sesuai dengan tipe data ClickHouse
     df = df.fillna({
         'days_since_prior_order': 0.0,
         'product_name': '',
@@ -71,16 +61,15 @@ def fetch_flatten_and_load():
         'department': ''
     })
     
-    # 4. Ingest massal ke ClickHouse
+
     client = get_client(
-        host='clickhouse', # Pakai nama service docker jika dalam 1 network
+        host='clickhouse', 
         port=8123, 
         username='default', 
         password='your_password',
         database='orders_db'
     )
     
-    # Memasukkan dataframe langsung ke tabel target
     client.insert_df(table='orders', df=df)
     print(f"Berhasil memproses & memindahkan {len(df)} baris produk ke ClickHouse.")
 
