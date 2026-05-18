@@ -68,17 +68,23 @@ touch metabase_queries.sql
 |metabase_queries| Inti fungsi dari file kumpulan query SQL di atas adalah sebagai mesin penggerak analitik (analisis data bisnis) yang akan digunakan di Metabase untuk menghasilkan metrik dan grafik pada Dashboard |
 |docker-compose.yml| sebagai blueprint infrastruktur pintar (Infrastructure as Code) yang bertugas otomatis menyediakan, mengonfigurasi, dan menyalakan seluruh ekosistem database analitik (ClickHouse) beserta visualisasinya (Metabase) secara instan dan terisolasi dalam satu komputer. |
 
+---
+
 ### Step 3 : Pemodelan Data via Click House
 
 - screenshot
 
 penjelasan
 
+---
+
 ### Step 4 : Visualisasi dan Question di Metabase
 
 -- screenshot
 
 penjelasan
+
+---
 
 ### Step 5 : Dashboard Metabase
 
