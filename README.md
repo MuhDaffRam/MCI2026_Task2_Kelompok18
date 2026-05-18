@@ -2,6 +2,24 @@
 
 ## Arsitektur Sistem
 
+```
+API Orders
+     ↓
+Apache Airflow (Orchestrator)
+     ↓
+Fetch & Flatten Data (Python)
+     ↓
+Raw Data Layer (ClickHouse: orders_db.orders)
+     ↓
+Data Lake (Parquet)
+     ↓
+Apache Spark Processing
+     ↓
+Analytics Layer (ClickHouse: analytics.orders_top_products)
+     ↓
+Metabase Visualization & Dashboard
+```
+
 ## Struktur Proyek
 ```
 MCI2026_Task2_Kelompok18/
