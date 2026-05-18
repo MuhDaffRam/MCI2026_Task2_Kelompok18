@@ -69,3 +69,20 @@ touch metabase_queries.sql
 |metabase_queries| ... |
 |docker-compose.yml| ... |
 
+### Step 3 : Pemodelan Data via Click House
+
+- screenshot
+
+penjelasan
+
+### Step 4 : Membuat Visualisasi dan Question di Metabase
+
+-- screenshot
+penjelasan
+
+### Step 5 : Membangun Dashboard Metabase
+
+-- screenshot
+penjelasan
+
+
