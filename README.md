@@ -151,6 +151,5 @@ Jika seluruh data dari masing-masing database tidak kosong, maka fetch data berh
 
 <img width="2559" height="1313" alt="image" src="https://github.com/user-attachments/assets/c9f98889-a019-4eeb-a854-6c4f7f9cd83a" />
 
-penjelasan
 
 
