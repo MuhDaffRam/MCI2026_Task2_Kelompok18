@@ -63,4 +63,9 @@ touch metabase_queries.sql
 |order_pipeline_dag.py| ... |
 |fetch_orders.py| ... |
 |process_orders_spark.py| ... |
+|create_database.sql|---|
+|create_database.sql| ... | 
+|create_table.sql| ... |
+|metabase_queries| ... |
+|docker-compose.yml| ... |
 
