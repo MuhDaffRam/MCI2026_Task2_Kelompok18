@@ -61,4 +61,6 @@ touch metabase_queries.sql
 |File|Fungsi|
 |---|---|
 |order_pipeline_dag.py| ... |
-|| ... |
+|fetch_orders.py| ... |
+|process_orders_spark.py| ... |
+
