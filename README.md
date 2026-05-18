@@ -95,9 +95,27 @@ touch metabase_queries.sql
 
 <img width="2559" height="1307" alt="image" src="https://github.com/user-attachments/assets/ff202a59-7918-42f2-a536-bc89a97522ae" />
 
+Bagian ini memberikan ringkasan performa seluruh putaran (runs) pipeline yang sudah berjalan:
+
+1. Status Eksekusi (Grid): Di sebelah kiri, terdapat barisan kotak-kotak kecil berwarna hijau tua. Ini menandakan bahwa pipeline telah sukses berjalan secara berkala setiap 10 menit tanpa ada yang gagal (failed) atau tertunda (delayed).
+2. DAG Runs Summary (Tabel): Menampilkan statistik performa, di mana total sukses tercatat sebanyak 10 kali (Total success: 10). Di sini juga terlihat bahwa waktu eksekusi tercepat (Min Run Duration) hanya memakan waktu 9 detik, sementara yang paling lama (Max Run Duration) adalah 2 menit 14 detik.
+
 <img width="1704" height="424" alt="image" src="https://github.com/user-attachments/assets/a04d6d6c-faf9-4a62-acd7-2f4d7082a019" />
 
+Bagian ini memvisualisasikan urutan kerja (dependency) antar-task yang telah kamu atur di file `orders_pipeline.py`:
+
+1. Terdapat dua kotak utama: `fetch_orders` dan `process_top_products_spark`.
+2. Kedua kotak tersebut dibingkai oleh warna hijau tua dengan label status success di bawahnya. Ini adalah bukti visual paling kuat bahwa task pertama (penarikan API Python) berhasil selesai, lalu otomatis memicu task kedua (pemrosesan Spark) hingga tuntas.
+
 <img width="2559" height="693" alt="image" src="https://github.com/user-attachments/assets/22f9cc26-ed74-4c6a-802e-083dd9a90f91" />
+
+Bagian ini menampilkan catatan (logs) internal dari mesin Docker saat menjalankan task `fetch_orders` pada tanggal 18 Mei 2026 jam 16:10 UTC:
+
+1. Mentarik orders dari <http://96.9.212.102:8000/orders...>: Bukti skrip berhasil menembak endpoint API.
+2. Dapat 100 orders dari API: Mengonfirmasi bahwa ada 100 data pesanan mentah yang berhasil diunduh.
+3. Flatten selesai: 1046 baris (order x product): Menunjukkan bahwa proses pembongkaran nested array JSON berhasil meratakan data dari 100 pesanan menjadi 1.046 baris item produk siap olah.
+4. Tersimpan ke /opt/airflow/data_lake/orders/orders_20260518_161010.parquet: Menandakan file biner .parquet berhasil ditulis ke Data Lake lokal dengan aman menggunakan penanda waktu snapshot.
+5. Command exited with return code 0: Kode penutup yang menyatakan proses Linux berakhir dengan status sukses sempurna (tanpa error).
 
 ---
 
