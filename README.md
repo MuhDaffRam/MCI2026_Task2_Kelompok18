@@ -69,7 +69,7 @@ touch metabase_queries.sql
 |metabase_queries.sql| Inti fungsi dari file kumpulan query SQL di atas adalah sebagai mesin penggerak analitik (analisis data bisnis) yang akan digunakan di Metabase untuk menghasilkan metrik dan grafik pada Dashboard |
 |docker-compose.yml| sebagai blueprint infrastruktur pintar (Infrastructure as Code) yang bertugas otomatis menyediakan, mengonfigurasi, dan menyalakan seluruh ekosistem database analitik (ClickHouse) beserta visualisasinya (Metabase) secara instan dan terisolasi dalam satu komputer. |
 |requirements.txt| sebagai daftar manifes belanjaan library (dependencies) Python beserta versi spesifiknya yang wajib diinstal agar seluruh skrip pipeline kelompokmu `fetch_orders.py` dan `process_orders_spark.py` bisa berjalan tanpa error di dalam container Docker Airflow |
-|Dockerfile| ... |
+|Dockerfile| sebagai instruksi kustom untuk merakit dan memasak sebuah sistem operasi kontainer (Docker Image) khusus Airflow yang sudah dimodifikasi. |
 
 ---
 
