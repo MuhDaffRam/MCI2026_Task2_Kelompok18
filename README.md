@@ -64,7 +64,7 @@ touch metabase_queries.sql
 |fetch_orders.py| mengambil data mentah yang rumit dan bertingkat (nested) dari API, membongkarnya menjadi tabel datar yang rapi, lalu mengamankannya ke dalam media penyimpanan sementara (Data Lake) dalam format Parquet. |
 |process_orders_spark.py| memasak data tersebut menggunakan engine Apache Spark, menghitung metrik analitiknya secara menyeluruh, menyimpannya ke database analitik ClickHouse, dan melakukan pembersihan (housekeeping) terhadap Data Lake. |
 |create_database.sql| • Mendefinisikan struktur penyimpanan tabel data mentah komprehensif (orders_db.orders) hasil proses flattening.<br>• Menyediakan 15 kolom analitik lengkap untuk menangkap granularitas data hingga level 1 row = 1 product line item.<br>• Dioptimalkan menggunakan ```ENGINE = MergeTree()``` dan diindeks berdasarkan ```ORDER BY (order_id, product_id)``` untuk menjamin kecepatan query multi-dimensi di Metabase. |
-|create_table.sql| ... |
+|create_table.sql| menyediakan cetak biru (blueprint) tempat penyimpanan data mentah yang sudah diratakan (flattened raw data) di ClickHouse. Jika dianalogikan, file ini bertugas untuk membangun sebuah "lemari arsip raksasa berkecepatan tinggi" bernama orders_db.orders yang memiliki 15 laci spesifik (kolom). |
 |metabase_queries| ... |
 |docker-compose.yml| ... |
 
