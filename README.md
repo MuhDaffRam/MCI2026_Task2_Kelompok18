@@ -74,13 +74,13 @@ touch metabase_queries.sql
 
 penjelasan
 
-### Step 4 : Membuat Visualisasi dan Question di Metabase
+### Step 4 : Visualisasi dan Question di Metabase
 
 -- screenshot
 
 penjelasan
 
-### Step 5 : Membangun Dashboard Metabase
+### Step 5 : Dashboard Metabase
 
 -- screenshot
 
