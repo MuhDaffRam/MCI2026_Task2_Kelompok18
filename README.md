@@ -76,15 +76,47 @@ touch metabase_queries.sql
 
 ---
 
-### Step 3 : Pemodelan Data via Click House
+### Step 4 : Validasi Data via Click House
+
+```
+docker exec -it projects-clickhouse-server-1 clickhouse-client
+```
+
+- Masuk ke Database di ClickHouse
+
+```
+SHOW DATABASES;
+```
 
 <img width="642" height="489" alt="image" src="https://github.com/user-attachments/assets/99e32b29-7b45-4b3a-9dfd-193ac48dd75a" />
 
-penjelasan
+- Kita menggunakan 2 database, yaitu analytics (hasil agregasi spark) dan juga orders_db (raw dari dataset)
+
+```
+USE analytics;
+DESCRIBE analytics.orders_top_products;
+SELECT COUNT(*) FROM analytics.orders_top_products;
+SELECT * FROM analytics.orders_top_products LIMIT 5;
+```
+
+<img width="1049" height="931" alt="image" src="https://github.com/user-attachments/assets/6aa0b417-b223-44d0-be3f-071f9b8e00bd" />
+
+- Melihat data dari `analytics.orders_top_products`
+
+```
+USE orders_db;
+DESCRIBE orders_db.orders;
+SELECT COUNT(*) FROM orders_db.orders;
+SELECT * FROM orders_db.orders LIMIT 5;
+```
+
+- Melihat data dari `analytics.orders_top_products`
+
+Jika seluruh data dari masing-masing database tidak kosong, maka fetch data berhasil 
 
 ---
 
-### Step 4 : Visualisasi dan Question dalam Dashboard Metabase
+### Step 5 : Visualisasi dan Question dalam Dashboard Metabase
 
 <img width="2559" height="1306" alt="image" src="https://github.com/user-attachments/assets/0ddac175-89bf-446a-8d04-fdc48b17b79d" />
 
