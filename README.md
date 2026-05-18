@@ -72,7 +72,7 @@ touch metabase_queries.sql
 
 ### Step 3 : Pemodelan Data via Click House
 
-<img width="2559" height="1316" alt="image" src="https://github.com/user-attachments/assets/f53be258-cfd5-4c37-bf99-241c04e126f4" />
+<img width="2559" height="1307" alt="image" src="https://github.com/user-attachments/assets/ff202a59-7918-42f2-a536-bc89a97522ae" />
 
 penjelasan
 
@@ -80,15 +80,13 @@ penjelasan
 
 ### Step 4 : Visualisasi dan Question di Metabase
 
-<img width="2559" height="1306" alt="image" src="https://github.com/user-attachments/assets/0ddac175-89bf-446a-8d04-fdc48b17b79d" />
-
 penjelasan
 
 ---
 
 ### Step 5 : Dashboard Metabase
 
--- screenshot
+<img width="2559" height="1306" alt="image" src="https://github.com/user-attachments/assets/0ddac175-89bf-446a-8d04-fdc48b17b79d" />
 
 penjelasan
 
