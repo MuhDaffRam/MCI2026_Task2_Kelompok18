@@ -66,7 +66,7 @@ touch metabase_queries.sql
 |create_database.sql| • Mendefinisikan struktur penyimpanan tabel data mentah komprehensif (orders_db.orders) hasil proses flattening.<br>• Menyediakan 15 kolom analitik lengkap untuk menangkap granularitas data hingga level 1 row = 1 product line item.<br>• Dioptimalkan menggunakan ```ENGINE = MergeTree()``` dan diindeks berdasarkan ```ORDER BY (order_id, product_id)``` untuk menjamin kecepatan query multi-dimensi di Metabase. |
 |create_table.sql| menyediakan cetak biru (blueprint) tempat penyimpanan data mentah yang sudah diratakan (flattened raw data) di ClickHouse. Jika dianalogikan, file ini bertugas untuk membangun sebuah "lemari arsip raksasa berkecepatan tinggi" bernama orders_db.orders yang memiliki 15 laci spesifik (kolom). |
 |metabase_queries| Inti fungsi dari file kumpulan query SQL di atas adalah sebagai mesin penggerak analitik (analisis data bisnis) yang akan digunakan di Metabase untuk menghasilkan metrik dan grafik pada Dashboard |
-|docker-compose.yml| ... |
+|docker-compose.yml| sebagai blueprint infrastruktur pintar (Infrastructure as Code) yang bertugas otomatis menyediakan, mengonfigurasi, dan menyalakan seluruh ekosistem database analitik (ClickHouse) beserta visualisasinya (Metabase) secara instan dan terisolasi dalam satu komputer. |
 
 ### Step 3 : Pemodelan Data via Click House
 
