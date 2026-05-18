@@ -74,15 +74,19 @@ touch metabase_queries.sql
 
 <img width="2559" height="1307" alt="image" src="https://github.com/user-attachments/assets/ff202a59-7918-42f2-a536-bc89a97522ae" />
 
+<img width="1704" height="424" alt="image" src="https://github.com/user-attachments/assets/a04d6d6c-faf9-4a62-acd7-2f4d7082a019" />
+
+<img width="2559" height="693" alt="image" src="https://github.com/user-attachments/assets/22f9cc26-ed74-4c6a-802e-083dd9a90f91" />
+
 ---
 
 ### Step 4 : Validasi Data via Click House
 
+- Masuk ke Database di ClickHouse
+
 ```
 docker exec -it projects-clickhouse-server-1 clickhouse-client
 ```
-
-- Masuk ke Database di ClickHouse
 
 - Kita menggunakan 2 database, yaitu analytics (hasil agregasi spark) dan juga orders_db (raw dari dataset)
 
