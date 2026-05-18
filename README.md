@@ -84,13 +84,15 @@ docker exec -it projects-clickhouse-server-1 clickhouse-client
 
 - Masuk ke Database di ClickHouse
 
+- Kita menggunakan 2 database, yaitu analytics (hasil agregasi spark) dan juga orders_db (raw dari dataset)
+
 ```
 SHOW DATABASES;
 ```
 
 <img width="642" height="489" alt="image" src="https://github.com/user-attachments/assets/99e32b29-7b45-4b3a-9dfd-193ac48dd75a" />
 
-- Kita menggunakan 2 database, yaitu analytics (hasil agregasi spark) dan juga orders_db (raw dari dataset)
+- Melihat data dari `analytics.orders_top_products`
 
 ```
 USE analytics;
@@ -101,8 +103,8 @@ SELECT * FROM analytics.orders_top_products LIMIT 5;
 
 <img width="1049" height="931" alt="image" src="https://github.com/user-attachments/assets/6aa0b417-b223-44d0-be3f-071f9b8e00bd" />
 
-- Melihat data dari `analytics.orders_top_products`
-
+- Melihat data dari `orders_db.orders`
+  
 ```
 USE orders_db;
 DESCRIBE orders_db.orders;
@@ -110,7 +112,9 @@ SELECT COUNT(*) FROM orders_db.orders;
 SELECT * FROM orders_db.orders LIMIT 5;
 ```
 
-- Melihat data dari `analytics.orders_top_products`
+<img width="1121" height="504" alt="image" src="https://github.com/user-attachments/assets/d948847b-f0e1-498d-8fb3-149646f8937e" />
+
+<img width="1970" height="748" alt="image" src="https://github.com/user-attachments/assets/592f348f-8262-4af0-826c-b467367c7855" />
 
 Jika seluruh data dari masing-masing database tidak kosong, maka fetch data berhasil 
 
