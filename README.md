@@ -70,12 +70,15 @@ touch metabase_queries.sql
 
 ---
 
+### Step 3 : Aktifkan Pipeline di Airflow
+
+<img width="2559" height="1307" alt="image" src="https://github.com/user-attachments/assets/ff202a59-7918-42f2-a536-bc89a97522ae" />
+
+---
+
 ### Step 3 : Pemodelan Data via Click House
 
 <img width="642" height="489" alt="image" src="https://github.com/user-attachments/assets/99e32b29-7b45-4b3a-9dfd-193ac48dd75a" />
-
-
-<img width="2559" height="1307" alt="image" src="https://github.com/user-attachments/assets/ff202a59-7918-42f2-a536-bc89a97522ae" />
 
 penjelasan
 
