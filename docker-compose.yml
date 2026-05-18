@@ -1,1 +1,47 @@
+version: '3.8'
 
+networks:
+  mci_network:
+    driver: bridge
+
+services:
+  # --- CLICKHOUSE DATABASE ---
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: mci_clickhouse
+    ports:
+      - "8123:8123" # HTTP Port (Untuk library python clickhouse_connect / Metabase)
+      - "9000:9000" # Native Client Port (Untuk DBeaver / DataGrip)
+    volumes:
+      - ch_data:/var/lib/clickhouse
+      - ch_logs:/var/log/clickhouse-server
+    environment:
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=your_password # Ganti dengan password kelompokmu
+      - CLICKHOUSE_DB=mci_analytics
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      - mci_network
+    restart: always
+
+  # --- METABASE VISUALIZATION ---
+  metabase:
+    image: metabase/metabase:latest
+    container_name: mci_metabase
+    ports:
+      - "3000:3000" # Akses Metabase via http://localhost:3000
+    volumes:
+      - metabase_data:/metabase.db
+    networks:
+      - mci_network
+    restart: always
+    depends_on:
+      - clickhouse
+
+volumes:
+  ch_data:
+  ch_logs:
+  metabase_data:
