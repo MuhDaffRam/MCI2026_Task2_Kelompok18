@@ -6,6 +6,9 @@
 ```
 MCI2026_Task2_Kelompok18/
 ├── dags/
+│   ├── scripts/
+│   │   ├── fetch_orders.py
+│   │   └── process_orders_spark.py
 │   └── orders_pipeline.py
 ├── sql/
 │   ├── create_database.sql
@@ -33,7 +36,14 @@ cd MCI2026_Task2_Kelompok18
 Membuat sub-folder dag dan sql (DDL)
 
 ```
-mkdir -p dags sql
+mkdir -p dags/scripts sql
+```
+
+Membuat file di dags/scripts/
+
+```
+touch fetch_orders.py
+touch process_orders_spark.py
 ```
 
 Membuat file di sql/
