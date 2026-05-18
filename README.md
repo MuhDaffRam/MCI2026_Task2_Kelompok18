@@ -72,7 +72,7 @@ touch metabase_queries.sql
 
 ### Step 3 : Pemodelan Data via Click House
 
-<img width="2559" height="1314" alt="image" src="https://github.com/user-attachments/assets/6f18bcdc-2b40-48b0-9f78-e502b000b85b" />
+<img width="2559" height="1316" alt="image" src="https://github.com/user-attachments/assets/f53be258-cfd5-4c37-bf99-241c04e126f4" />
 
 penjelasan
 
