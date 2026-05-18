@@ -20,3 +20,35 @@ MCI2026_Task2_Kelompok18/
 ## Step by Step
 
 ---
+
+### Step 1 : Membuat Struktur Proyek
+
+Membuat folder utama
+
+```
+mkdir MCI2026_Task2_Kelompok18
+cd MCI2026_Task2_Kelompok18
+```
+
+Membuat sub-folder dag dan sql (DDL)
+
+```
+mkdir -p dags sql
+```
+
+Membuat file di sql/
+
+```
+touch create_database.sql
+touch create_table.sql
+touch metabase_queries.sql
+```
+
+---
+
+### Step 2 : Isi File dan Konfigurasi Kode
+
+|File|Fungsi|
+|---|---|
+|order_pipeline_dag.py| ... |
+|| ... |
