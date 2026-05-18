@@ -16,8 +16,8 @@ services:
       - ch_data:/var/lib/clickhouse
       - ch_logs:/var/log/clickhouse-server
     environment:
-      - CLICKHOUSE_USER=default
-      - CLICKHOUSE_PASSWORD=your_password # Ganti dengan password kelompokmu
+      - CLICKHOUSE_USER=MCI18
+      - CLICKHOUSE_PASSWORD=MCI 
       - CLICKHOUSE_DB=mci_analytics
     ulimits:
       nofile:
@@ -32,7 +32,7 @@ services:
     image: metabase/metabase:latest
     container_name: mci_metabase
     ports:
-      - "3000:3000" # Akses Metabase via http://localhost:3000
+      - "3000:3000"
     volumes:
       - metabase_data:/metabase.db
     networks:
