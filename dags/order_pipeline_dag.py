@@ -1,121 +1,100 @@
-from airflow import DAG
-from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import requests
 import pandas as pd
-from clickhouse_driver import Client
-import os
-
-DATASET_URL = "http://96.9.212.102:8000/orders"
-
-LOCAL_DATA_LAKE = "/opt/airflow/data_lake/orders/"
-
-CLICKHOUSE_CONFIG = {
-    'host': 'localhost',
-    'port': 9000,
-    'user': 'default',
-    'password': '',
-    'database': 'mci_analytics'
-}
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from clickhouse_connect import get_client
 
 default_args = {
-    'owner': 'MCI_Kelompok_XX',
+    'owner': 'airflow',
     'depends_on_past': False,
     'start_date': datetime(2026, 5, 1),
+    'email_failures': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
 
-def fetch_api_to_parquet():
-    """
-    TAHAPAN 1: INGESTION (API -> DATA LAKE)
-    Mengambil data JSON dari endpoint orders dan menyimpannya ke format Parquet.
-    """
-    if not os.path.exists(LOCAL_DATA_LAKE):
-        os.makedirs(LOCAL_DATA_LAKE)
-
-    print(f"Memulai pengambilan data dari: {DATASET_URL}")
-    response = requests.get(DATASET_URL, timeout=30)
-    response.raise_for_status() 
+def fetch_flatten_and_load():
+    # 1. Ambil data dari REST API
+    url = "http://96.9.212.102:8000/orders"
+    response = requests.get(url)
+    if response.status_code != 200:
+        raise Exception(f"Gagal mengambil data dari API: {response.status_code}")
     
     data = response.json()
-    df = pd.DataFrame(data)
     
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    filename = f"orders_{timestamp}.parquet"
-    filepath = os.path.join(LOCAL_DATA_LAKE, filename)
+    # 2. Proses Flattening Data JSON
+    all_rows = []
     
-    df.to_parquet(filepath, index=False)
-    print(f"Berhasil mengunduh {len(df)} data. File disimpan di: {filepath}")
+    # Ambil array orders dari root JSON
+    orders_list = data.get("orders", [])
     
-    return filepath
-
-
-def load_parquet_to_clickhouse(**kwargs):
-    """
-    TAHAPAN 2: TRANSFORMATION & LOADING (DATA LAKE -> CLICKHOUSE)
-    Membaca file Parquet terakhir, merapikan tipe data, dan mengirimkannya ke ClickHouse.
-    """
-    
-    ti = kwargs['ti']
-    filepath = ti.xcom_pull(task_ids='ingest_api_data')
-    
-    if not filepath:
-        raise ValueError("Gagal menerima path file dari task sebelumnya.")
+    for order in orders_list:
+        # Ekstrak data level Order
+        order_metadata = {
+            "order_id": order.get("order_id"),
+            "user_id": order.get("user_id"),
+            "order_number": order.get("order_number"),
+            "order_dow": order.get("order_dow"),
+            "order_hour_of_day": order.get("order_hour_of_day"),
+            # Gunakan nilai default jika field ini kosong/null agar tidak error saat load
+            "days_since_prior_order": order.get("days_since_prior_order") if order.get("days_since_prior_order") is not None else 0.0,
+            "eval_set": order.get("eval_set", "")
+        }
         
-    client = Client(
-        host=CLICKHOUSE_CONFIG['host'],
-        port=CLICKHOUSE_CONFIG['port'], 
-        user=CLICKHOUSE_CONFIG['user'], 
-        password=CLICKHOUSE_CONFIG['password']
+        # Ambil array products di dalam order tersebut
+        products_list = order.get("products", [])
+        
+        for product in products_list:
+            # Gabungkan metadata order dengan data product (Flattening)
+            row = {
+                **order_metadata, # Copy semua key-value dari order
+                "product_id": product.get("product_id"),
+                "product_name": product.get("product_name", ""),
+                "aisle_id": product.get("aisle_id"),
+                "aisle": product.get("aisle", ""),
+                "department_id": product.get("department_id"),
+                "department": product.get("department", ""),
+                "add_to_cart_order": product.get("add_to_cart_order"),
+                "reordered": product.get("reordered")
+            }
+            all_rows.append(row)
+            
+    # 3. Konversi hasil akhir ke Pandas DataFrame
+    df = pd.DataFrame(all_rows)
+    
+    # Mengatasi nilai NaN/None agar sesuai dengan tipe data ClickHouse
+    df = df.fillna({
+        'days_since_prior_order': 0.0,
+        'product_name': '',
+        'aisle': '',
+        'department': ''
+    })
+    
+    # 4. Ingest massal ke ClickHouse
+    client = get_client(
+        host='clickhouse', # Pakai nama service docker jika dalam 1 network
+        port=8123, 
+        username='default', 
+        password='your_password',
+        database='orders_db'
     )
-
-    client.execute(f"CREATE DATABASE IF NOT EXISTS {CLICKHOUSE_CONFIG['database']}")
     
-    client.execute(f"USE {CLICKHOUSE_CONFIG['database']}")
-
-    client.execute('''
-        CREATE TABLE IF NOT EXISTS orders (
-            order_id UInt64,
-            customer_name String,
-            product_name String,
-            price Float64,
-            quantity UInt32,
-            order_date DateTime
-        ) ENGINE = MergeTree() 
-        ORDER BY (order_date, order_id)
-    ''')
-
-    print(f"Membaca file Parquet dari Data Lake: {filepath}")
-    df = pd.read_parquet(filepath)
-
-    df['order_date'] = pd.to_datetime(df['order_date'])
-    
-    data_to_insert = df.to_dict('records')
-    
-    print("Mentransfer data ke database ClickHouse...")
-    client.execute(
-        "INSERT INTO orders (order_id, customer_name, product_name, price, quantity, order_date) VALUES", 
-        data_to_insert
-    )
-    
-    print(f"Pipeline Sukses! Sebanyak {len(df)} baris data berhasil dimuat ke ClickHouse.")
+    # Memasukkan dataframe langsung ke tabel target
+    client.insert_df(table='orders', df=df)
+    print(f"Berhasil memproses & memindahkan {len(df)} baris produk ke ClickHouse.")
 
 with DAG(
-    'MCI2026_Task2_Pipeline_Orders',
+    'mci_flattened_orders_pipeline',
     default_args=default_args,
-    description='Pipeline ETL Data Orders dari API ke ClickHouse berbasis Parquet',
-    schedule_interval=timedelta(minutes=10), 
-    catchup=False
+    description='Pipeline ETL Flattening untuk Data Orders Instacart',
+    schedule_interval='@daily',
+    catchup=False,
 ) as dag:
-    
-    task_ingest = PythonOperator(
-        task_id='ingest_api_data',
-        python_callable=fetch_api_to_parquet
+
+    task_transform_and_load = PythonOperator(
+        task_id='flatten_and_load_orders',
+        python_callable=fetch_flatten_and_load,
     )
 
-    task_load = PythonOperator(
-        task_id='load_to_clickhouse',
-        python_callable=load_parquet_to_clickhouse
-    )
-    task_ingest >> task_load
+    task_transform_and_load
