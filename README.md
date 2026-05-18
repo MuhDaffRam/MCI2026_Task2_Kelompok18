@@ -149,7 +149,18 @@ Jika seluruh data dari masing-masing database tidak kosong, maka fetch data berh
 
 <img width="2559" height="1306" alt="image" src="https://github.com/user-attachments/assets/0ddac175-89bf-446a-8d04-fdc48b17b79d" />
 
+Bagian ini menampilkan data yang telah dimasak dan dihitung oleh Apache Spark Engine sebelum masuk ke database ClickHouse. Isinya berfokus pada performa produk dan departemen:
+1. KPI Analytics (Metrik Utama): Menampilkan ringkasan angka berupa total lini produk (total_order_lines), total reorder, jumlah pengguna unik (total_unique_users), hingga rata-rata pesanan per produk.
+2. Top 100 Products (Grafik Batang Biru): Visualisasi dari query produk terlaris. Produk Bag of Organic Bananas dan Banana terlihat mendominasi pesanan dengan jumlah total_orders tertinggi.
+3. Top 10 Reordered Products (Grafik Batang Oranye): Menampilkan produk yang paling setia dibeli kembali oleh konsumen (loyalty tracker).
+4. Department Contribution (Grafik Donat): Menunjukkan kontribusi kategori besar. Departemen Produce (bahan segar) memegang porsi terbesar (33.88%), diikuti oleh Dairy Eggs (13.27%).
+5. Top 10 Products dengan User Terbanyak (Grafik Batang Ungu): Mengukur jumlah pelanggan unik (unique_users) per produk untuk melihat variasi jangkauan pasar suatu produk.
+
 <img width="2559" height="1313" alt="image" src="https://github.com/user-attachments/assets/c9f98889-a019-4eeb-a854-6c4f7f9cd83a" />
 
-
+Bagian ini menampilkan visualisasi langsung dari Tabel Data Mentah (orders_db.orders) hasil pembongkaran skrip python penarik API (data flattening):
+1. Average Add-to-Cart Order (Angka Besar 8.33): Menunjukkan metrik rata-rata urutan produk dimasukkan ke dalam keranjang belanja. Angka 8.33 berarti rata-rata konsumen memasukkan produk tersebut sebagai barang ke-8 di keranjang mereka.
+2. Transaction per Hour (Grafik Batang Kombinasi Garis): Menampilkan tren jam sibuk (Peak Hours). Aktivitas pesanan mulai melonjak sejak jam 09.00 pagi hingga puncaknya di sore hari (sekitar jam 15.00 - 17.00).
+4. Reorder vs First Purchase (Grafik Donat Hijau-Ungu): Menampilkan perbandingan persentase perilaku belanja. Sebanyak 58.4% transaksi merupakan pembelian ulang (Reordered), sementara 41.6% sisanya adalah pembelian pertama kali (First Purchase).
+5. Top 10 Aisle (Grafik Waterfall/Batang): Menampilkan rak spesifik (aisle) yang paling sering dikunjungi produknya, di mana rak Fresh Vegetables dan Fresh Fruits menempati posisi teratas.
 
