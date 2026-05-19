@@ -36,10 +36,10 @@ MCI2026_Task2_Kelompok18/
 │   │   └── process_orders_spark.py
 │   └── orders_pipeline.py
 ├── sql/
+│   ├── clickhouse-queries.sql
 │   ├── create_database.sql
 │   ├── create_table.sql
 │   └── metabase_queries.sql
-├── screenshots/
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
