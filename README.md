@@ -1,5 +1,13 @@
 # MCI2026_Task2_Kelompok18
 
+## Pembagian Tugas
+
+|Nama|Tugas|
+|---|---|
+|Nabila Shafa Rahayu| - Memvalidasi ClickHouse
+- Membuat query, question, dan visualisasi di Dashboard Metabase|
+|Muhammad Daffa Ramadhan|...|
+
 ## Arsitektur Sistem
 
 ```
