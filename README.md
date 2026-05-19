@@ -4,9 +4,8 @@
 
 |Nama|Tugas|
 |---|---|
-|Nabila Shafa Rahayu| - Memvalidasi ClickHouse
-- Membuat query, question, dan visualisasi di Dashboard Metabase|
-|Muhammad Daffa Ramadhan|...|
+|Nabila Shafa Rahayu| - Memperbaiki dan Mengintegrasi Pipeline ETL (Fetch Raw & Flatten Data)<br>- Menjalankan Docker Services (Airflow, ClickHouse, Metabase, PostgreSQL<br>- Setup Metabase (query, question, dan visualisasi di Dashboard)<br>- Menyusun README|
+|Muhammad Daffa Ramadhan| ... |
 
 ## Arsitektur Sistem
 
