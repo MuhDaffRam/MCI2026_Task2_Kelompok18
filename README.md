@@ -5,7 +5,7 @@
 |Nama|Tugas|
 |---|---|
 |Nabila Shafa Rahayu| - Memperbaiki dan Mengintegrasi Pipeline ETL (Fetch Raw & Flatten Data)<br>- Menjalankan Docker Services (Airflow, ClickHouse, Metabase, PostgreSQL<br>- Setup Metabase (query, question, dan visualisasi di Dashboard)<br>- Menyusun README|
-|Muhammad Daffa Ramadhan| ... |
+|Muhammad Daffa Ramadhan| Menyusun DAG Apache Airflow<br>Menyusun README(terutama penjelasan di step 2, 3 dan 5)|
 
 ## Arsitektur Sistem
 
