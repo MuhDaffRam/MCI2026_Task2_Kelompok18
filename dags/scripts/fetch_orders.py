@@ -20,9 +20,7 @@ def fetch_orders():
 
     orders = payload.get("orders", [])
     print(f"📥 Dapat {len(orders)} orders dari API")
-
-    # Flatten: tiap (order, product) jadi satu row.
-    # Order metadata diduplikasi ke setiap product line untuk memudahkan groupby di Spark.
+    
     rows = []
     for order in orders:
         order_id = order.get("order_id")
@@ -60,7 +58,6 @@ def fetch_orders():
     df = pd.DataFrame(rows)
     print(f"🧹 Flatten selesai: {len(df)} baris (order × product)")
 
-    # Connect ke ClickHouse
     client = Client(
         host="clickhouse-server",
         user="admin",
@@ -68,10 +65,8 @@ def fetch_orders():
         database="orders_db"
     )
 
-    # Convert dataframe jadi list tuple
     data_tuples = [tuple(x) for x in df.to_numpy()]
 
-    # Insert ke table orders
     client.execute("""
         INSERT INTO orders (
             order_id, 
@@ -94,7 +89,6 @@ def fetch_orders():
 
     print(f"✅ {len(data_tuples)} rows berhasil dimasukkan ke ClickHouse")
 
-    # Simpan ke data lake dengan timestamp di nama file biar tidak tabrakan
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_path = f"/opt/airflow/data_lake/orders/orders_{stamp}.parquet"
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
