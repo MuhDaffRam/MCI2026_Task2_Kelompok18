@@ -46,13 +46,11 @@ def run_spark_analytics():
         ORDER BY total_orders
     """)
 
-    # Pola TRUNCATE-INSERT: dashboard Metabase selalu nampilin snapshot terbaru
     client.execute("TRUNCATE TABLE analytics.orders_top_products")
     data_tuples = [tuple(x) for x in final_results.to_numpy()]
     if data_tuples:
         client.execute("INSERT INTO analytics.orders_top_products VALUES", data_tuples)
 
-    # Bersihkan parquet yang sudah selesai diproses
     print("Membersihkan parquet lama dari data lake...")
     files = glob.glob("/opt/airflow/data_lake/orders/*.parquet")
     for f in files:

@@ -20,9 +20,7 @@ def fetch_orders():
 
     orders = payload.get("orders", [])
     print(f"📥 Dapat {len(orders)} orders dari API")
-
-    # Flatten: tiap (order, product) jadi satu row.
-    # Order metadata diduplikasi ke setiap product line untuk memudahkan groupby di Spark.
+    
     rows = []
     for order in orders:
         order_id = order.get("order_id")
